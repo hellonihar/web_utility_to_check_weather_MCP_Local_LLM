@@ -7,7 +7,7 @@ This application demonstrates the power of the **Model Context Protocol (MCP)** 
 
 ```mermaid
 graph TD
-    Client["Web Frontend UI"] -->|"HTTP POST /api/chat"| Backend["FastAPI Backend / MCP Client"]
+    Client["Web Frontend UI (React)"] -->|"HTTP POST /api/weather"| Backend["FastAPI Backend (main.py)"]
     Backend -->|"HTTP GET /tools"| MCPServer["MCP Weather Server"]
     Backend -->|"Ollama Chat API"| Ollama["Local Ollama (gemma4:e4b)"]
     MCPServer -->|"External API Call"| OpenWeather["OpenWeather API"]
@@ -26,13 +26,14 @@ graph TD
 
 ## Components
 
-### 1. Web Frontend (Planned)
-- **Tech Stack**: React/Vite with Vanilla CSS (Premium Glassmorphism Design)
-- **Responsibility**: Provides a highly interactive and visually stunning user interface. It features a dropdown menu of popular cities and dynamic cards to display the generated response. It acts as the primary user touchpoint, sending requests to the backend.
+### 1. Web Frontend
+- **Tech Stack**: React/Vite with Vanilla CSS (Premium Glassmorphism Design, Framer Motion, Lucide Icons)
+- **Current Directory**: `frontend/`
+- **Responsibility**: Provides a highly interactive and visually stunning user interface. It features a dropdown menu of popular cities and dynamic, animated cards to display the generated response. It acts as the primary user touchpoint, sending requests to the backend.
 
 ### 2. LLM / MCP Client (Backend)
 - **Tech Stack**: Python, FastAPI, Ollama Python Client, Requests
-- **Current File**: `llm_mcp_client.py` 
+- **Current File**: `main.py` 
 - **Responsibility**: Acts as the intelligent orchestrator.
   - Dynamically fetches available tools from the connected MCP Server.
   - Parses and translates the MCP tool schema into a format compatible with Ollama's function calling.
