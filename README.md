@@ -1,66 +1,76 @@
-# Basic Weather Check CLI using MCP
+# SkyMCP: Premium Web Weather App using MCP & Ollama
 
-A natural language weather query tool powered by the **Model Context Protocol (MCP)** and a local **Ollama** model (`gemma4:e4b`). This application demonstrates how to bridge local LLMs with external APIs using standardized tool-calling protocols.
+SkyMCP is a highly interactive, premium weather dashboard that leverages the **Model Context Protocol (MCP)** and a local **Ollama** model (`gemma4:e4b`) to provide conversational weather reports.
+
+## Features
+- **Premium UI**: Glassmorphism design with Framer Motion animations.
+- **MCP Integration**: Uses a standardized protocol to fetch real-time weather data.
+- **Local LLM**: Powered by Google's Gemma 4 (via Ollama) for intelligent data synthesis.
+- **FastAPI Backend**: A high-performance bridge between the AI and the web frontend.
 
 ## Architecture
-
-The system follows a modular architecture:
-- **MCP Weather Server**: A FastAPI-based server that acts as an MCP provider, exposing a `get_weather` tool.
-- **LLM MCP Client**: An intelligent agent that dynamically discovers tools from the server and uses a local LLM to orchestrate tool calls and summarize results.
-
-For a detailed technical breakdown and Mermaid diagram, refer to [architecture.md](./architecture.md).
+For a detailed technical breakdown, see [architecture.md](./architecture.md).
 
 ## Prerequisites
-
-- **[uv](https://docs.astral.sh/uv/)**: A fast Python package and environment manager.
-- **[Ollama](https://ollama.com/)**: Required to run the local LLM.
-- **`gemma4:e4b` Model**: Pull the model using `ollama pull gemma4:e4b`.
-- **OpenWeather API Key**: Get a free key from [OpenWeatherMap](https://openweathermap.org/api).
+- **[uv](https://docs.astral.sh/uv/)**: Fast Python package manager.
+- **[Node.js & npm](https://nodejs.org/)**: For the React frontend.
+- **[Ollama](https://ollama.com/)**: To run the local LLM (`ollama pull gemma4:e4b`).
+- **OpenWeather API Key**: [Get one here](https://openweathermap.org/api).
 
 ## Installation
 
-1. **Clone the repository**:
+1. **Clone the Repo**:
    ```bash
-   git clone https://github.com/hellonihar/basic_weather_check_CLI_using_MCP.git
-   cd basic_weather_check_CLI_using_MCP
+   git clone https://github.com/hellonihar/web_utility_to_check_weather_MCP_Local_LLM.git
+   cd web_utility_to_check_weather_MCP_Local_LLM
    ```
 
-2. **Setup environment variables**:
-   Create a `.env` file in the root directory and add your OpenWeather API key:
+2. **Configure Environment**:
+   Create a `.env` file in the root:
    ```env
    OPENWEATHER_API_KEY=your_api_key_here
    ```
 
-3. **Initialize the environment**:
+3. **Backend Setup**:
    ```bash
    uv venv
-   # Windows: .venv\Scripts\activate
-   # Unix: source .venv/bin/activate
+   # Windows: .venv\Scripts\activate | Unix: source .venv/bin/activate
    uv pip install mcp fastapi uvicorn ollama httpx pydantic requests python-dotenv
    ```
 
-## Usage
-
-1. **Start the MCP Weather Server**:
-   In your first terminal, launch the server that provides the weather tools:
+4. **Frontend Setup**:
    ```bash
-   uvicorn mcp_weather_server:app --port 8000
+   cd frontend
+   npm install
    ```
 
-2. **Run the LLM MCP Client**:
-   In a second terminal, run the interactive client:
-   ```bash
-   uv run llm_mcp_client.py
-   ```
+## Operating Instructions
 
-3. **Interact with the Agent**:
-   Once the client is running, you can ask for weather in plain English:
-   - `Ask: What is the weather like in Bhubaneswar?`
-   - `Ask: Should I carry an umbrella in London today?`
+To run the full application, you will need **three terminal windows**:
 
-## Project Structure
+### 1. Start the MCP Weather Server
+This provides the raw weather tools:
+```bash
+uvicorn mcp_weather_server:app --port 8000
+```
 
-- `mcp_weather_server.py`: The FastAPI server implementing the weather tool.
-- `llm_mcp_client.py`: The agentic client using Ollama for natural language processing.
-- `architecture.md`: Detailed architectural documentation.
-- `mcp_client.py`: A simple, non-LLM reference client.
+### 2. Start the Web Backend
+This orchestrates the LLM and MCP logic:
+```bash
+python main.py
+```
+*(Running on http://localhost:8001)*
+
+### 3. Start the Frontend
+The user interface:
+```bash
+cd frontend
+npm run dev
+```
+*(Running on http://localhost:5173)*
+
+## How to Use
+1. Open [http://localhost:5173](http://localhost:5173) in your browser.
+2. Select a city from the premium dropdown.
+3. Click **"Show Weather"**.
+4. Watch as the AI fetches real-time data via MCP and generates a natural language report.
